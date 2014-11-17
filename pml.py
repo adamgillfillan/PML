@@ -18,7 +18,8 @@ class PML:
 
 
 def main():
-    filename = raw_input("Please enter a filename")
+    # filename = raw_input("Please enter a filename")
+    filename = 'pml_sample.html'
     f = open(filename, 'r')
     pml = PML(f)
     print(pml.print_file())
