@@ -2,9 +2,8 @@ __author__ = 'Adam'
 import re
 
 # TODO: Write Test Cases
-# TODO: exec code
-# TODO: Write Algorithm to replace <pml> .. <pml> blocks with the exec code
-# While looping through final code set, line by line, if it reaches a "STOPHERE", then exec code
+# TODO: Determine why an extra space is added sometimes
+# TODO: If 'exec a' doesnt print anything, we should not add " "*value
 
 
 class PML:
@@ -95,7 +94,9 @@ class PML:
         """
 
         # Substitute with string "REPLACE_ME"
+        # pattern = r"(<pml>.*?</pml>)"
         pattern = r"(<pml>.*?</pml>)"
+
         p = re.compile(pattern, re.DOTALL)
         new_string = re.sub(p, "REPLACE_ME", self.code)
         return new_string
@@ -113,8 +114,12 @@ class PML:
             if "REPLACE_ME" in block:
                 value = len(block) - len(block.lstrip())-1
                 a = "\n".join(self.sub_blocks[count])
-                print " "*value,
-                exec a
+                try:
+                    print " "*value,
+                    exec a
+                except SyntaxError:
+                    print " "*value
+
                 count += 1
             else:
                 print(block)
@@ -130,9 +135,9 @@ def main():
     #    print(block)
 
     # TODO: Uncomment this
-   # print(pml.blocks)
-    #print(pml.sub_blocks)
-    #print(pml.code_transition)
+    print(pml.blocks)
+    print(pml.sub_blocks)
+    print(pml.code_transition)
     #print(pml.blocks_transition)
     # for block in pml.blocks:
     #     exec block
@@ -141,7 +146,7 @@ def main():
     pml.print_file()
     #print(pml.sub_blocks)
     #print pml.code
-   # print pml.formatted_code
+    #print pml.formatted_code
 
 if __name__ == "__main__":
     main()
