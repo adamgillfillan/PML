@@ -95,9 +95,9 @@ class PML:
         """
 
         # Substitute with string "REPLACE_ME"
-        pattern = r"\s*(<pml>.*?</pml>)"
+        pattern = r"(<pml>.*?</pml>)"
         p = re.compile(pattern, re.DOTALL)
-        new_string = re.sub(p, "\nREPLACE_ME", self.code)
+        new_string = re.sub(p, "REPLACE_ME", self.code)
         return new_string
 
     def split_code_transition(self):
@@ -107,7 +107,17 @@ class PML:
 
     def print_file(self):
         """Prints the formatted PML file"""
-        return self.code
+
+        count = 0
+        for block in self.blocks_transition:
+            if "REPLACE_ME" in block:
+                value = len(block) - len(block.lstrip())-1
+                a = "\n".join(self.sub_blocks[count])
+                print " "*value,
+                exec a
+                count += 1
+            else:
+                print(block)
 
 
 def main():
@@ -126,9 +136,10 @@ def main():
     #print(pml.blocks_transition)
     # for block in pml.blocks:
     #     exec block
-    for block in pml.blocks_transition:
-        print(block)
-
+    # for block in pml.blocks_transition:
+    #     print(block)
+    pml.print_file()
+    #print(pml.sub_blocks)
     #print pml.code
    # print pml.formatted_code
 

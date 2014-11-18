@@ -8,17 +8,18 @@
             This is an example of a pml file
         </p>
         <pml>
-            def f():
-                return "<h2>Good Bye</h2>"
+            class Dog(object):
+                def __init__(self, name):
+                    self.name = name
 
-            pml = f()
+                def bark(self):
+                    return self.name + " barks!"
         </pml>
         Sample Text
 
-
-
         <pml>
-            pml = f()
+            billy = Dog("Billy")
+            pml = billy.bark()
         </pml>
     </body>
 </html>
