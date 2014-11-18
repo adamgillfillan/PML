@@ -114,13 +114,14 @@ class PML:
             if "REPLACE_ME" in block:
                 value = len(block) - len(block.lstrip())-1
                 a = "\n".join(self.sub_blocks[count])
-                try:
-                    print " "*value,
-                    exec a
-                except SyntaxError:
-                    print " "*value
+                if "pml = " in a:
+                    try:
+                        print " "*value,
+                        exec a
+                    except SyntaxError:
+                        print " "*value
 
-                count += 1
+                    count += 1
             else:
                 print(block)
 
