@@ -1,6 +1,7 @@
 __author__ = 'Adam'
 import re
 
+
 class PML:
     """Create a PML file manager.
     A PML File is an HTML document with a twist. Python code is allowed in a PML document
@@ -12,22 +13,23 @@ class PML:
     """
 
     def __init__(self, file):
-        self.file = file
         self.code = file.read()
-        # self.blocks = self.create_blocks()
+        self.blocks = []
         self.create_blocks()
 
     def print_file(self):
         return self.code
 
     def create_blocks(self):
-        """Creates blocks of python code and returns them as a list."""
-        pattern = r"(\s*<pml>.*?</pml>)"
+        """Creates blocks of python code and returns them in a list."""
+        pattern = r"<pml>(.*?)</pml>"
         p = re.compile(pattern, re.DOTALL)
-        match = p.search(self.code)
-        if match:
-            print(match.groups())
-        # return []
+        self.blocks = [x for x in re.findall(p, self.code)]
+
+        # Substitute with a 1, 2, etc.
+        # pattern = r"(\s*<pml>.*?</pml>)"
+        # p = re.compile(pattern, re.DOTALL)
+        # self.blocks = [x for x in re.findall(p, self.code)]
 
 
 def main():
@@ -35,8 +37,10 @@ def main():
     filename = 'pml_sample.html'
     f = open(filename, 'r')
     pml = PML(f)
-    print(pml.print_file())
-
+    #print(pml.print_file())
+    # for block in pml.blocks:
+    #     print(block)
+    print(pml.blocks)
 
 if __name__ == "__main__":
     main()
