@@ -5,14 +5,8 @@ import pml
 
 
 class TestPML(unittest.TestCase):
-    """
-        Test the functionality of PML
-    """
+    """Tests the functionality of PML"""
     def setUp(self):
-#         self.filename = 'pml_sample.html'
-#         self.f = open(self.filename, 'r')
-#         self.pml = pml.PML(self.f)
-#
         self.pml_provided_input = """<html>
 <h1>Hello There</h1>
 <p>
@@ -79,6 +73,21 @@ This is an example of a pml file
         More Sample Text
     </body>
 </html>"""
+        self.pml_bad_python_indent = """<html>
+<head>
+    <title>This is a Title</title>
+</head>
+    <body>
+        <h1>Hello There</h1>
+        <p>
+            This is an example of a pml file
+        </p>
+        ERROR: unexpected indent (<string>, line 6)
+        Sample Text
+
+        More Sample Text
+    </body>
+</html>"""
 
     def return_pml_object(self, filename):
         """Helper method that returns a PML object of a given filename"""
@@ -132,7 +141,13 @@ This is an example of a pml file
         output = self.return_output_of_pml(pml)
         self.assertEquals(self.pml_simple_statement, output)
 
+    def test_pml_bad_python_indent(self):
+        """Tests the handling of an erroneous python indent in the file."""
+        filename = 'test_PML_FILES/pml_bad_python_indent.html'
+        pml = self.return_pml_object(filename)
+        output = self.return_output_of_pml(pml)
+        self.assertEquals(self.pml_bad_python_indent, output)
 
 if __name__ == "__main__":
-    assert not hasattr(sys.stdout, "getvalue")
-    unittest.main(module=__name__, buffer=True, exit=False)
+    # Sets buffer value to true, allowing test methods to compare values of stdout
+    unittest.main(buffer=True)

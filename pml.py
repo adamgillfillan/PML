@@ -6,23 +6,22 @@ import re
 
 
 class PML:
-    """Create a PML file manager.
+    """A PML file manager.
+
     A PML File is an HTML document with a twist. Python code is allowed in a PML document
     with a tag indicator <pml> ... </pml>.
-
     PML has file data, executes the python data, and parses it to provide an HTML readable document.
 
-    This class performs the parsing of input and processing to return a valid output.
-    """
+    This class performs the parsing of an input PML file and the processing to return a valid HTML output.
 
+    """
     def __init__(self, filename):
         self.filename = filename
         self.code = filename.read()
-        # self.formatted_code = self.format()
         self.blocks = self.create_blocks()
         self.sub_blocks = self.format()
         self.code_transition = self.replace_text()
-        self.blocks_transition = self.split_code_transition()
+        self.blocks_transition = self.code_transition.split("\n")
 
     def format(self):
         """Formats blocks of python code by removing unnecessary indents in the code."""
@@ -31,7 +30,7 @@ class PML:
         for block in self.blocks:
             blocks.append(block.split('\n'))
 
-        # We need a multi-dimensional array to represent each occurrence of a <pml> ... </pml> code block
+        # We need a list of lists of <pml> ... </pml> code blocks
         new_blocks = [[], []]
         i = 0
 
@@ -62,10 +61,12 @@ class PML:
 
     @staticmethod
     def pml_replace(blocks):
-        """Takes a formatted list of python blocks and searches for the string 'pml = '.
-        Replace this with 'print '. This is needed for the 'exec' command used later.
-        """
+        """Parses a list of lists and returns a list of lists of blocks of python code.
 
+        Takes a formatted list of lists of python blocks and searches for the string 'pml = '.
+        Replaces this with 'print '. This is needed for the 'exec' command used later.
+
+        """
         new_blocks = [[], []]
         i = 0
         for sub_block in blocks:
@@ -73,69 +74,52 @@ class PML:
                 new_blocks[i].append(element.replace("pml = ", "print "))
             i += 1
 
-        # a = "\n".join(new_blocks[0])
-        # b = "\n".join(new_blocks[1])
-        # exec a
-        # exec b
-
         return new_blocks
 
     def create_blocks(self):
-        """Creates blocks of python code and returns them in a list."""
-
+        """Return a list of blocks of python code."""
         pattern = r"<pml>(.*?)</pml>"
         p = re.compile(pattern, re.DOTALL)
-        # TODO: Replace self.code with self.formatted_code
         blocks = [x for x in re.findall(p, self.code)]
+
         return blocks
 
     def replace_text(self):
-        """Replaces all occurrences of a pml code block with the identifier value, REPLACE_ME
-        This is not the best solution. Given time limitations, this will have to do for now.
-        """
-
+        """Replace the identifier value, REPLACE_ME, in a string of a pml file and return the new string"""
         pattern = r"(<pml>.*?</pml>)"
-
         p = re.compile(pattern, re.DOTALL)
         new_string = re.sub(p, "REPLACE_ME", self.code)
+
         return new_string
 
-    def split_code_transition(self):
-        """Split code_transition by line."""
-
-        return self.code_transition.split("\n")
-
     def print_file(self):
-        """Prints the formatted PML file"""
-        # abc = [[], []]
-        # length = len(self.sub_blocks)
-        # i = 0
-        # while i < length:
-        #     for block in self.sub_blocks[i]:
-        #         abc[i].append(block)
-        #     i += 1
-        # print abc
+        """Prints the formatted PML file."""
         count = 0
         for block in self.blocks_transition:
             if "REPLACE_ME" in block:
-                value = len(block) - len(block.lstrip())-1
-                # print(value)
+                # the length of the leading whitespace
+                leading_whitespace = len(block) - len(block.lstrip())-1
                 a = "\n".join([str(x) for x in self.sub_blocks[count]])
                 if "print" in a:
                     try:
                         # value will be less than 0 when the indent should be flushed to the left.
-                        if value < 0:
+                        if leading_whitespace < 0:
                             exec a
                         else:
-                            print " "*value,
+                            print " "*leading_whitespace,
                             exec a
-                    except SyntaxError:
-                        print("Syntax error on execution of python code")
+                    except IndentationError, e:
+                        print "ERROR:", e
+                    except SyntaxError, e:
+                        print "ERROR:", e
                 else:
                     try:
                         exec a
+                    except IndentationError, e:
+                        print "ERROR:", e
                     except SyntaxError:
-                        print("Syntax error on execution of python code")
+                        print "ERROR:", e
+
                 count += 1
             else:
                 print(block)
@@ -143,7 +127,7 @@ class PML:
 
 if __name__ == "__main__":
     # filename = raw_input("Please enter a filename")
-    filename = 'test_PML_files/pml_simple_statement.html'
+    filename = 'test_PML_files/pml_bad_python_indent.html'
     f = open(filename, 'r')
     pml = PML(f)
     pml.print_file()
