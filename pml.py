@@ -2,8 +2,7 @@ __author__ = 'Adam'
 import re
 
 # TODO: Write Test Cases
-# TODO: Determine why an extra space is added sometimes
-# TODO: If 'exec a' doesnt print anything, we should not add " "*value
+# TODO: Write Comments
 
 
 class PML:
