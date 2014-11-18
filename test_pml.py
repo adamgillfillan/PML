@@ -23,6 +23,11 @@ class TestPML(unittest.TestCase):
 
             pml = f()
         </pml>
+        Sample Text
+
+        <pml>
+            pml = f()
+        </pml>
     </body>
 </html>'''
         self.filename = 'pml_sample.html'
