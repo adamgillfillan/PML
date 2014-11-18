@@ -65,6 +65,7 @@ class PML:
         """Takes a formatted list of python blocks and searches for the string 'pml = '.
         Replace this with 'print '. This is needed for the 'exec' command used later.
         """
+
         new_blocks = [[], []]
         i = 0
         for sub_block in blocks:
@@ -81,6 +82,7 @@ class PML:
 
     def create_blocks(self):
         """Creates blocks of python code and returns them in a list."""
+
         pattern = r"<pml>(.*?)</pml>"
         p = re.compile(pattern, re.DOTALL)
         # TODO: Replace self.code with self.formatted_code
@@ -92,8 +94,6 @@ class PML:
         This is not the best solution. Given time limitations, this will have to do for now.
         """
 
-        # Substitute with string "REPLACE_ME"
-        # pattern = r"(<pml>.*?</pml>)"
         pattern = r"(<pml>.*?</pml>)"
 
         p = re.compile(pattern, re.DOTALL)
@@ -107,46 +107,43 @@ class PML:
 
     def print_file(self):
         """Prints the formatted PML file"""
-
+        # abc = [[], []]
+        # length = len(self.sub_blocks)
+        # i = 0
+        # while i < length:
+        #     for block in self.sub_blocks[i]:
+        #         abc[i].append(block)
+        #     i += 1
+        # print abc
         count = 0
         for block in self.blocks_transition:
             if "REPLACE_ME" in block:
                 value = len(block) - len(block.lstrip())-1
-                a = "\n".join(self.sub_blocks[count])
-                if "pml = " in a:
+                # print(value)
+                a = "\n".join([str(x) for x in self.sub_blocks[count]])
+                if "print" in a:
                     try:
-                        print " "*value,
+                        # value will be less than 0 when the indent should be flushed to the left.
+                        if value < 0:
+                            exec a
+                        else:
+                            print " "*value,
+                            exec a
+                    except SyntaxError:
+                        print("Syntax error on execution of python code")
+                else:
+                    try:
                         exec a
                     except SyntaxError:
-                        print " "*value
-
-                    count += 1
+                        print("Syntax error on execution of python code")
+                count += 1
             else:
                 print(block)
 
 
-def main():
+if __name__ == "__main__":
     # filename = raw_input("Please enter a filename")
-    filename = 'pml_sample.html'
+    filename = 'test_PML_files/pml_simple_statement.html'
     f = open(filename, 'r')
     pml = PML(f)
-    #print(pml.print_file())
-    #for block in pml.blocks:
-    #    print(block)
-
-    # TODO: Uncomment this
-    print(pml.blocks)
-    print(pml.sub_blocks)
-    print(pml.code_transition)
-    #print(pml.blocks_transition)
-    # for block in pml.blocks:
-    #     exec block
-    # for block in pml.blocks_transition:
-    #     print(block)
     pml.print_file()
-    #print(pml.sub_blocks)
-    #print pml.code
-    #print pml.formatted_code
-
-if __name__ == "__main__":
-    main()
