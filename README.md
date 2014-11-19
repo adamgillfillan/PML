@@ -5,5 +5,6 @@ A PML document is a standard HTML document with one additional feature. Any text
 
 Example input:  
 ![alt tag](https://raw.githubusercontent.com/adamgillfillan/PML/master/img/sample_input.png)
- 
 
+Example output:  
+![alt tag](https://raw.githubusercontent.com/adamgillfillan/PML/master/img/sample_output.png)
