@@ -91,19 +91,16 @@ This is an example of a pml file
 
     def return_pml_object(self, filename):
         """Helper method that returns a PML object of a given filename"""
-
         f = open(filename, 'r')
         return pml.PML(f)
 
     def return_output_of_pml(self, pml_object):
         """Helper method that returns the value of sys.stdout of a given pml_object"""
-
         pml_object.print_file()
         return sys.stdout.getvalue().strip()
 
     def test_pml_print_with_provided_input(self):
         """Tests printing PML with the input provided in the project specification"""
-
         filename = 'test_PML_FILES/pml_provided_input.html'
         pml = self.return_pml_object(filename)
         output = self.return_output_of_pml(pml)
@@ -111,7 +108,6 @@ This is an example of a pml file
 
     def test_pml_print_with_class(self):
         """Tests printing PML when the python code has a class"""
-
         filename = 'test_PML_FILES/pml_class.html'
         pml = self.return_pml_object(filename)
         output = self.return_output_of_pml(pml)
@@ -119,7 +115,6 @@ This is an example of a pml file
 
     def test_pml_print_with_func(self):
         """Tests printing PML when the python code has a function"""
-
         filename = 'test_PML_FILES/pml_func.html'
         pml = self.return_pml_object(filename)
         output = self.return_output_of_pml(pml)
@@ -127,7 +122,6 @@ This is an example of a pml file
 
     def test_pml_print_no_methods(self):
         """Tests printing PML when the python code has no 'pml = ' statement to return anything"""
-
         filename = 'test_PML_FILES/pml_no_method.html'
         pml = self.return_pml_object(filename)
         output = self.return_output_of_pml(pml)
@@ -135,7 +129,6 @@ This is an example of a pml file
 
     def test_pml_simple_statement(self):
         """Tests printing PML when the python code has only a simple statement, ex: "pml = Hello World" """
-
         filename = 'test_PML_FILES/pml_simple_statement.html'
         pml = self.return_pml_object(filename)
         output = self.return_output_of_pml(pml)
