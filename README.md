@@ -5,10 +5,10 @@ A PML document is a standard HTML document with one additional feature. Any text
 Dependencies: Python 2.7  
 Warning: Tested only on a windows machine. Results may differ if run on a mac or linux machine.  
 
-To run on a windows machine, use the command line to enter:  
+To run, use the command line to enter:  
 `C:\> python pml.py pml_sample.html`
 
-To run the tests on a windows machine, use the command line to enter:  
+To run the unit tests, use the command line to enter:  
 `C:\> python test_pml.py`
 
 Example input:  
