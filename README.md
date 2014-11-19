@@ -6,26 +6,4 @@ A PML document is a standard HTML document with one additional feature. Any text
 
 Example input:
  
-<html>
-<h1>Hello There</h1>
-<p>
-This is an example of a pml file
-</p>
-<pml>
-    def f():
-        return "<h2>Good Bye</h2>"
- 
-    pml = f()
-</pml>
-</html>
- 
- 
-Example output:
- 
-<html>
-<h1>Hello There</h1>
-<p>
-This is an example of a pml file
-</p>
-<h2>Good Bye</h2>
-</html>
+
