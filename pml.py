@@ -51,6 +51,7 @@ class PML:
                     new_blocks[i].append(element.replace(" "*new_value, " "*difference))
 
             i += 1
+        # Insert a blank value at the beginning since we started from sub_block[1:] in the above loop
         new_blocks[0].insert(0, "")
 
         formatted_blocks = self.pml_replace(new_blocks)
