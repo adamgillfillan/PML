@@ -1,8 +1,6 @@
 __author__ = 'Adam'
 import re
-
-# TODO: Write Test Cases
-# TODO: Write Comments
+import sys
 
 
 class PML:
@@ -117,7 +115,7 @@ class PML:
                         exec a
                     except IndentationError, e:
                         print "ERROR:", e
-                    except SyntaxError:
+                    except SyntaxError, e:
                         print "ERROR:", e
 
                 count += 1
@@ -127,7 +125,8 @@ class PML:
 
 if __name__ == "__main__":
     # filename = raw_input("Please enter a filename")
-    filename = 'test_PML_files/pml_bad_python_indent.html'
-    f = open(filename, 'r')
+    # filename = 'test_PML_files/pml_bad_python_indent.html'
+    args = [arg for arg in sys.argv]
+    f = open(args[1], 'r')
     pml = PML(f)
     pml.print_file()
